@@ -101,13 +101,22 @@ void animacao_1(PIO pio, uint sm) {
         sleep_ms(1000 / FPS);  // Delay entre os frames para controlar a animação
     }
 }
-// Função para desligar todos os LEDs
 
+// Função para desligar todos os LEDs
 void desligar_leds(PIO pio, uint sm) {
     // Todos os LEDs desligados (cor preta)
     for (int i = 0; i < NUM_PIXELS; i++) {
         uint32_t color = rgb_color(0, 0, 0); // Cor preta (apagado)
         pio_sm_put_blocking(pio, sm, color); // Envia a cor preta para todos os LEDs
+    }
+}
+
+// Função para ligar todos os LEDs na cor azul
+void ligar_azul(PIO pio, uint sm) {
+    // Todos os LEDs acesos com cor azul em intensidade máxima
+    for (int i = 0; i < NUM_PIXELS; i++) {
+        uint32_t color = rgb_color(0, 0, 1.0); // Azul com intensidade máxima
+        pio_sm_put_blocking(pio, sm, color);  // Envia a cor azul para todos os LEDs
     }
 }
 
@@ -136,6 +145,12 @@ int main() {
             break;
         case 'A':
             desligar_leds(pio, sm);
+
+            break;
+        case 'B':
+            ligar_azul(pio, sm);
+
+            break;
         default:
             break;
         }
