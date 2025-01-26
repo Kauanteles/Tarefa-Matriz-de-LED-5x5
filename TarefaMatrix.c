@@ -242,6 +242,9 @@ int main() {
             animacao_1(pio, sm); // Simboliza o carregamento de uma bateria
             
             break;
+        case '0':
+            animacao_0(pio, sm); // rosto feliz piscando
+            break;
         case 'A':
             desligar_leds(pio, sm);
 
