@@ -253,6 +253,12 @@ int main() {
             ligar_azul(pio, sm);
 
             break;
+        case '#': // liga leds com cor branca em 20% de intensidade
+            for (int i = 0; i < NUM_PIXELS; i++) {
+                uint32_t color = rgb_color(0.2, 0.2, 0.2); // branco com 20% de intensidade
+                pio_sm_put_blocking(pio, sm, color); 
+            }
+            break;
         default:
             break;
         }
