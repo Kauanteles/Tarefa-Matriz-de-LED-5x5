@@ -257,6 +257,7 @@ int main() {
         case 'D': // liga os leds em verde com 50% de intensidade
             for (int i = 0; i < NUM_PIXELS; i++) {
                 uint32_t color = rgb_color(0, 0.5, 0); // verde com 50% de intensidade
+                pio_sm_put_blocking(pio, sm, color); 
             }
             break;  
 
