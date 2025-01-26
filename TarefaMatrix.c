@@ -273,6 +273,15 @@ void ligar_azul(PIO pio, uint sm) {
     }
 }
 
+// Função para ligar todos os LEDs na cor vermelha com 80% de intensidade
+void ligar_vermelho(PIO pio, uint sm) {
+    // Todos os LEDs acesos com cor vermelha em 80% de intensidade
+    for (int i = 0; i < NUM_PIXELS; i++) {
+        uint32_t color = rgb_color(0.8, 0, 0); // Vermelho com 80% de intensidade
+        pio_sm_put_blocking(pio, sm, color);  // Envia a cor vermelha para todos os LEDs
+    }
+}
+
 // Função principal
 int main() {
     stdio_init_all();
@@ -294,7 +303,6 @@ int main() {
         {
         case '1':
             animacao_1(pio, sm); // Simboliza o carregamento de uma bateria
-            
             break;
             
         case '2':
@@ -303,15 +311,18 @@ int main() {
 
         case '0':
             animacao_0(pio, sm); // rosto feliz piscando
-
             break;
+
         case 'A':
             desligar_leds(pio, sm);
-
             break;
+
         case 'B':
             ligar_azul(pio, sm);
+            break;
 
+        case 'C':
+            ligar_vermelho(pio, sm); // Aciona LEDs na cor vermelha com 80% de intensidade
             break;
 
         case 'D': // liga os leds em verde com 50% de intensidade
