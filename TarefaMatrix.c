@@ -117,6 +117,99 @@ void desligar_leds(PIO pio, uint sm) {
     }
 }
 
+void animacao_0(PIO pio, uint sm){
+    int max_frames = 7;
+
+    scene animation [] = {
+        {
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 1, 0, 1, 0
+            },
+            {0,0,0.5},
+            500
+        },{
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0,
+                0, 1, 0, 1, 0
+            },
+            {0,0,0.5},
+            500
+        },{
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 1, 0
+            },
+            {0,0,0.5},
+            200
+        },{
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0,
+                0, 1, 0, 1, 0
+            },
+            {0,0,0.5},
+            500
+        },{
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0
+            },
+            {0,0,0.5},
+            200
+        },{
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0,
+                0, 1, 0, 1, 0
+            },
+            {0,0,0.5},
+            200
+        },{
+            {
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                1, 1, 1, 1, 1,
+                0, 0, 0, 0, 0,
+                0, 1, 0, 1, 0
+            },
+            {0,0,0.5},
+            1000
+        }
+    };
+
+    for (int frame = 0; frame < max_frames; frame++) {
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            if (animation[frame].frame[i]) {
+                uint32_t color = rgb_color(animation[frame].color[0], animation[frame].color[1], animation[frame].color[2]);
+                pio_sm_put_blocking(pio, sm, color);
+            } else {
+                uint32_t color = rgb_color(0, 0, 0);
+                pio_sm_put_blocking(pio, sm, color);
+            }
+        }
+        sleep_ms(animation[frame].ms_time);
+    }
+    sleep_ms(100);
+    desligar_leds(pio, sm);
+}
+
 // Função para ligar todos os LEDs na cor azul
 void ligar_azul(PIO pio, uint sm) {
     // Todos os LEDs acesos com cor azul em intensidade máxima
