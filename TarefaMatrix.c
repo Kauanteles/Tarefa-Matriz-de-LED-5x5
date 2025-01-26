@@ -102,6 +102,60 @@ void animacao_1(PIO pio, uint sm) {
     }
 }
 
+// Animação de um "X" acendendo em uma matriz de LEDs 5x5
+void animacao_2(PIO pio, uint sm) {
+    // Frames do "X" acendendo
+    double x_pattern[5][25] = {
+        {1, 0, 0, 0, 1,  // Primeiro frame
+        0, 1, 0, 1, 0,
+        0, 0, 1, 0, 0,
+        0, 1, 0, 1, 0,
+        1, 0, 0, 0, 1},
+
+        {0, 0, 0, 0, 0,  // Segundo frame
+        0, 1, 0, 1, 0,
+        0, 0, 1, 0, 0,
+        0, 1, 0, 1, 0,
+        0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Terceiro frame
+        0, 0, 0, 0, 0,
+        0, 1, 1, 1, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Quarto frame
+        0, 0, 0, 0, 0,
+        0, 1, 1, 1, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Quinto frame
+        0, 0, 0, 0, 0,
+        0, 1, 0, 1, 0,
+        0, 0, 1, 0, 0,
+        0, 0, 0, 0, 0}
+    };
+
+    int max_frames = 5; // Número de frames na animação
+
+    for (int frame = 0; frame < max_frames; frame++) {
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            // Se o valor for 1 (LED aceso), atribuímos a cor com transição
+            if (x_pattern[frame][i] == 1) {
+                uint32_t color = cor_transicao(frame, max_frames); // Cor com transição
+                pio_sm_put_blocking(pio, sm, color); // Mostra o LED com a cor
+            } else {
+                // Se for 0 (LED apagado), atribuímos a cor preta
+                uint32_t color = rgb_color(0, 0, 0); // Cor preta (apagado)
+                pio_sm_put_blocking(pio, sm, color); // Desliga o LED
+            }
+        }
+        sleep_ms(1000 / FPS); // Delay entre os frames para controlar a animação
+    }
+}
+
+
 // Função para desligar todos os LEDs
 void desligar_leds(PIO pio, uint sm) {
     // Todos os LEDs desligados (cor preta)
@@ -141,6 +195,10 @@ int main() {
         {
         case '1':
             animacao_1(pio, sm); // Simboliza o carregamento de uma bateria
+            
+            break;
+        case '2':
+            animacao_2(pio, sm); // Simboliza um X na matriz
             
             break;
         case 'A':
