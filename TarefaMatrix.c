@@ -12,6 +12,12 @@
 #define COLUNA_QNTD 4
 #define FPS 10 // Frames por segundo (100 ms por frame)
 
+typedef struct {
+    double frame[NUM_PIXELS];
+    double color[3];
+    uint32_t ms_time;
+} scene;
+
 // Mapas de GPIOs para teclado
 const uint gpioCol[COLUNA_QNTD] = {4, 3, 2, 1};
 const uint gpioLinha[LINHA_QNTD] = {10, 9, 8, 5};
@@ -165,6 +171,99 @@ void desligar_leds(PIO pio, uint sm) {
     }
 }
 
+void animacao_0(PIO pio, uint sm){
+    int max_frames = 7;
+
+    scene animation [] = {
+        {
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 1, 0, 1, 0
+            },
+            {0,0,0.5},
+            500
+        },{
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0,
+                0, 1, 0, 1, 0
+            },
+            {0,0,0.5},
+            500
+        },{
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 1, 0
+            },
+            {0,0,0.5},
+            200
+        },{
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0,
+                0, 1, 0, 1, 0
+            },
+            {0,0,0.5},
+            500
+        },{
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0
+            },
+            {0,0,0.5},
+            200
+        },{
+            {
+                0, 0, 0, 0, 0,
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0,
+                0, 1, 0, 1, 0
+            },
+            {0,0,0.5},
+            200
+        },{
+            {
+                0, 1, 1, 1, 0,
+                1, 0, 0, 0, 1,
+                1, 1, 1, 1, 1,
+                0, 0, 0, 0, 0,
+                0, 1, 0, 1, 0
+            },
+            {0,0,0.5},
+            1000
+        }
+    };
+
+    for (int frame = 0; frame < max_frames; frame++) {
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            if (animation[frame].frame[i]) {
+                uint32_t color = rgb_color(animation[frame].color[0], animation[frame].color[1], animation[frame].color[2]);
+                pio_sm_put_blocking(pio, sm, color);
+            } else {
+                uint32_t color = rgb_color(0, 0, 0);
+                pio_sm_put_blocking(pio, sm, color);
+            }
+        }
+        sleep_ms(animation[frame].ms_time);
+    }
+    sleep_ms(100);
+    desligar_leds(pio, sm);
+}
+
 // Função para ligar todos os LEDs na cor azul
 void ligar_azul(PIO pio, uint sm) {
     // Todos os LEDs acesos com cor azul em intensidade máxima
@@ -197,9 +296,14 @@ int main() {
             animacao_1(pio, sm); // Simboliza o carregamento de uma bateria
             
             break;
+            
         case '2':
             animacao_2(pio, sm); // Simboliza um X na matriz
-            
+            break;
+
+        case '0':
+            animacao_0(pio, sm); // rosto feliz piscando
+
             break;
         case 'A':
             desligar_leds(pio, sm);
@@ -208,6 +312,20 @@ int main() {
         case 'B':
             ligar_azul(pio, sm);
 
+            break;
+
+        case 'D': // liga os leds em verde com 50% de intensidade
+            for (int i = 0; i < NUM_PIXELS; i++) {
+                uint32_t color = rgb_color(0, 0.5, 0); // verde com 50% de intensidade
+                pio_sm_put_blocking(pio, sm, color); 
+            }
+            break;  
+
+        case '#': // liga leds com cor branca em 20% de intensidade
+            for (int i = 0; i < NUM_PIXELS; i++) {
+                uint32_t color = rgb_color(0.2, 0.2, 0.2); // branco com 20% de intensidade
+                pio_sm_put_blocking(pio, sm, color); 
+            }
             break;
         default:
             break;
