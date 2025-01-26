@@ -12,6 +12,12 @@
 #define COLUNA_QNTD 4
 #define FPS 10 // Frames por segundo (100 ms por frame)
 
+typedef struct {
+    double frame[NUM_PIXELS];
+    double color[3];
+    uint32_t ms_time;
+} scene;
+
 // Mapas de GPIOs para teclado
 const uint gpioCol[COLUNA_QNTD] = {4, 3, 2, 1};
 const uint gpioLinha[LINHA_QNTD] = {10, 9, 8, 5};
