@@ -422,6 +422,86 @@ void animacao_cobra(PIO pio, uint sm) {
         sleep_ms(200); // Delay entre os frames
     }
 }
+void animacao_timer(PIO pio, uint sm){
+    
+        double timer_frames [9][25] = {
+        {0, 0, 1, 0, 0,  // Primeiro frame
+         0, 0, 1, 0, 0,
+         0, 0, 1, 0, 0,
+         0, 0, 1, 0, 0,
+         0, 0, 1, 1, 0},
+       
+        {0, 1, 1, 1, 0,  // Segundo frame
+         0, 1, 0, 0, 0,
+         0, 0, 1, 0, 0,
+         0, 0, 0, 1, 0,
+         0, 1, 1, 1, 0},    
+        
+        {0, 1, 1, 1, 0,  // terceiro frame
+         0, 0, 0, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 0, 0, 1, 0,
+         0, 1, 1, 1, 0},
+        
+        {0, 1, 0, 0, 0,  // Quarto frame
+         0, 0, 0, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 1, 0, 1, 0,
+         0, 1, 0, 1, 0},
+        
+        {0, 1, 1, 1, 0,  // Quinto frame
+         0, 0, 0, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 1, 0, 0, 0,
+         0, 1, 1, 1, 0},
+
+        {0, 1, 1, 1, 0,  // Sexto frame
+         0, 1, 0, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 1, 0, 0, 0,
+         0, 0, 1, 0, 0},
+
+    
+        
+        {0, 1, 0, 0, 0,  // Setimo frame
+         0, 0, 0, 1, 0,
+         0, 1, 0 , 0, 0,
+         0, 0, 0, 1, 0,
+         0, 1, 1, 1, 0},
+        
+        {0, 1, 1, 1, 0,  // Oitavo frame
+         0, 1, 0, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 1, 0, 1, 0,
+         0, 1, 1, 1, 0},
+        
+        {0, 0, 1, 0, 0,  // 9Sexto frame
+         0, 0, 0, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 1, 0, 1, 0,
+         0, 1, 1, 1, 0},
+        
+    
+      
+    };
+    
+    int total_frames=9;
+
+    for (int frame = 0; frame < total_frames; frame++) {
+        // Exibe o frame atual
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            if (timer_frames[frame][i] == 1) {
+                uint32_t color = rgb_color(255, 0, 0); // Cor vermelha 
+                pio_sm_put_blocking(pio, sm, color);
+            } else {
+                uint32_t color = rgb_color(0, 0, 0);   // Cor preta (apagado)
+                pio_sm_put_blocking(pio, sm, color);
+            }
+        }
+        sleep_ms(1000); // Delay entre os frames
+    }
+
+}
 
 
 // Função principal
@@ -453,6 +533,9 @@ int main() {
 
         case '3':
             animacao_cobra(pio, sm); // Simboliza uma cobra atravessando a matriz
+            break;   
+        case '4':
+            animacao_timer(pio, sm); // Simboliza um timer de 1 a 9
             break;
 
         case '0':
