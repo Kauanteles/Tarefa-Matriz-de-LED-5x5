@@ -282,6 +282,148 @@ void ligar_vermelho(PIO pio, uint sm) {
     }
 }
 
+void animacao_cobra(PIO pio, uint sm) {
+    // Frames da cobra atravessando a matriz
+    double cobra_frames[20][25] = {
+        {1, 0, 0, 0, 0,  // Primeiro frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {1, 1, 0, 0, 0,  // Segundo frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Terceiro frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 1, 1, 1, 0,  // Quarto frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 1, 1, 1,  // Quinto frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 1, 1,  // Sexto frame
+         1, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 1,  // Sétimo frame
+         1, 0, 0, 0, 0,
+         0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Oitavo frame
+         1, 0, 0, 0, 0,
+         0, 0, 0, 1, 1,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Nono frame
+         0, 0, 0, 0, 0,
+         0, 0, 1, 1, 1,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo frame
+         0, 0, 0, 0, 0,
+         0, 1, 1, 1, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Primeiro frame
+         0, 0, 0, 0, 0,
+         1, 1, 1, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Segundo frame
+         0, 0, 0, 0, 0,
+         1, 1, 0, 0, 0,
+         0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Terceiro frame
+         0, 0, 0, 0, 0,
+         1, 0, 0, 0, 0,
+         0, 0, 0, 0, 1,
+         1, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Quarto frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 1,
+         1, 1, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Quinto frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         1, 1, 1, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Sexto frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 1, 1, 1, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Sétimo frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 1, 1, 1},
+
+        {0, 0, 0, 0, 0,  // Décimo Oitavo frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 1, 1},
+
+        {0, 0, 0, 0, 0,  // Décimo Nono frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 1},
+
+        {0, 0, 0, 0, 0,  // Vigésimo frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+    };
+
+    int num_frames = 20; // Número total de frames na animação
+
+    for (int frame = 0; frame < num_frames; frame++) {
+        // Exibe o frame atual
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            if (cobra_frames[frame][i] == 1) {
+                uint32_t color = rgb_color(0, 255, 0); // Cor verde para a cobra
+                pio_sm_put_blocking(pio, sm, color);
+            } else {
+                uint32_t color = rgb_color(0, 0, 0);   // Cor preta (apagado)
+                pio_sm_put_blocking(pio, sm, color);
+            }
+        }
+        sleep_ms(200); // Delay entre os frames
+    }
+}
+
+
 // Função principal
 int main() {
     stdio_init_all();
@@ -307,6 +449,10 @@ int main() {
             
         case '2':
             animacao_2(pio, sm); // Simboliza um X na matriz
+            break;
+
+        case '3':
+            animacao_cobra(pio, sm); // Simboliza uma cobra atravessando a matriz
             break;
 
         case '0':
