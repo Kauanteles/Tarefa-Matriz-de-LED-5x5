@@ -502,7 +502,68 @@ void animacao_timer(PIO pio, uint sm){
     }
 
 }
+// Animação de "Ondas Crescentes" na matriz de LEDs 5x5
+void animacao_ondas(PIO pio, uint sm) {
+    // Frames representando as ondas crescentes
+    double ondas[6][25] = {
+        {0, 0, 0, 0, 0,  // Nenhum LED aceso (estado inicial)
+         0, 0, 0, 0, 0,
+         0, 0, 1, 0, 0,  // Apenas o LED central aceso
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
 
+        {0, 0, 0, 0, 0,  // Primeira expansão
+         0, 1, 1, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 0, 0, 0, 0},
+
+        {1, 0, 0, 0, 1,  // Segunda expansão
+         0, 1, 1, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 1, 1, 1, 0,
+         1, 0, 0, 0, 1},
+
+        {1, 1, 1, 1, 1,  // Terceira expansão (bordas completas)
+         1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1},
+
+        {0, 0, 0, 0, 0,  // Recolhimento - bordas desligando
+         0, 1, 1, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 1, 1, 1, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Última etapa (só o LED central aceso)
+         0, 0, 0, 0, 0,
+         0, 0, 1, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0}
+    };
+
+    int max_frames = 6;  // Número total de frames na animação
+
+    // Iteração sobre os frames
+    for (int frame = 0; frame < max_frames; frame++) {
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            if (ondas[frame][i] == 1) {
+                // LEDs acesos com cor azul crescente
+                uint32_t color = rgb_color(0, 0, (double)frame / max_frames);
+                pio_sm_put_blocking(pio, sm, color);
+            } else {
+                // LEDs apagados
+                uint32_t color = rgb_color(0, 0, 0);
+                pio_sm_put_blocking(pio, sm, color);
+            }
+        }
+        sleep_ms(500);  // Delay entre os frames
+    }
+
+    sleep_ms(100);  // Pausa ao final
+    desligar_leds(pio, sm);  // Garantir que todos os LEDs desliguem
+}
 
 // Função principal
 int main() {
@@ -536,6 +597,10 @@ int main() {
             break;   
         case '4':
             animacao_timer(pio, sm); // Simboliza um timer de 1 a 9
+            break;
+
+        case '6':
+            animacao_ondas(pio, sm); // Simboliza ondas crescentes
             break;
 
         case '0':
