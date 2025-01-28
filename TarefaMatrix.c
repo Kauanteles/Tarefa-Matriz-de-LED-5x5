@@ -639,15 +639,15 @@ void animacao_e(PIO pio, uint sm){
         // Exibe o frame atual
         for (int i = 0; i < NUM_PIXELS; i++) {
             if (e_frames[frame][i] == 1) {
-                uint32_t color = rgb_color(0, 0, 255); // Cor verde para a cobra
+                uint32_t color = rgb_color(0, 0, 255); // Cor azul para a letra
                 pio_sm_put_blocking(pio, sm, color);
             } else {
                 uint32_t color = rgb_color(0, 0, 0);   // Cor preta (apagado)
                 pio_sm_put_blocking(pio, sm, color);
             }
         }
-        if(frame < 13 || frame > 18){
-            sleep_ms(200); // Delay entre os frames
+        if(frame < 13 || frame > 18){ // Delay entre os frames, dependendo do frame
+            sleep_ms(200);
         }else{
             sleep_ms(500);
         }
