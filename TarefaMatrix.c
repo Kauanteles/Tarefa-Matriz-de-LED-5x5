@@ -537,7 +537,9 @@ int main() {
         case '4':
             animacao_timer(pio, sm); // Simboliza um timer de 1 a 9
             break;
-
+        case '9':
+            animacao_9(pio, sm);
+            break;
         case '0':
             animacao_0(pio, sm); // rosto feliz piscando
             break;
