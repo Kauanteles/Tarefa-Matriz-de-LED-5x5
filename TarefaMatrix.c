@@ -503,6 +503,159 @@ void animacao_timer(PIO pio, uint sm){
 
 }
 
+
+void animacao_e(PIO pio, uint sm){
+        // Frames da cobra atravessando a matriz
+    double e_frames[21][25] = {
+        {1, 0, 0, 0, 0,  // Primeiro frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {1, 1, 0, 0, 0,  // Segundo frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Terceiro frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Quarto frame
+         0, 1, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Quinto frame
+         0, 1, 0, 0, 0,
+         0, 0, 0, 1, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Sexto frame
+         0, 1, 0, 0, 0,
+         0, 0, 0, 1, 0,
+         0, 1, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Sétimo frame
+         0, 1, 0, 0, 0,
+         0, 0, 0, 1, 0,
+         0, 1, 0, 0, 0,
+         0, 0, 1, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Oitavo frame
+         0, 1, 0, 0, 0,
+         0, 0, 0, 1, 0,
+         0, 1, 0, 0, 0,
+         0, 1, 1, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Nono frame
+         0, 1, 0, 0, 0,
+         0, 0, 0, 1, 0,
+         0, 1, 0, 0, 1,
+         0, 1, 1, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Décimo frame
+         0, 1, 0, 0, 0,
+         1, 0, 0, 1, 0,
+         0, 1, 0, 0, 1,
+         0, 1, 1, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Décimo Primeiro frame
+         0, 1, 0, 0, 0,
+         1, 1, 0, 1, 0,
+         0, 1, 0, 0, 1,
+         0, 1, 1, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Décimo Segundo frame
+         0, 1, 0, 0, 0,
+         1, 1, 1, 1, 0,
+         0, 1, 0, 0, 1,
+         0, 1, 1, 0, 0},
+
+        {1, 1, 1, 0, 0,  // Décimo Terceiro frame
+         0, 1, 0, 0, 0,
+         1, 1, 1, 1, 1,
+         0, 1, 0, 0, 1,
+         0, 1, 1, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Quarto frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Quinto frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Sexto frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+
+        {0, 0, 0, 0, 0,  // Décimo Sétimo frame
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0},
+        
+        {1, 1, 1, 0, 0,  // Décimo Oitavo frame
+         0, 1, 0, 0, 0,
+         1, 1, 1, 1, 1,
+         0, 1, 0, 0, 1,
+         0, 1, 1, 0, 0},
+
+         {1, 1, 1, 0, 0,  // Décimo Nono frame
+         0, 1, 0, 0, 0,
+         1, 1, 1, 1, 1,
+         0, 1, 0, 0, 1,
+         0, 1, 1, 0, 0},
+
+         {1, 1, 1, 0, 0,  // Vigésimo frame
+         0, 1, 0, 0, 0,
+         1, 1, 1, 1, 1,
+         0, 1, 0, 0, 1,
+         0, 1, 1, 0, 0},
+
+         {1, 1, 1, 0, 0,  // Vigésimo Primeiro frame
+         0, 1, 0, 0, 0,
+         1, 1, 1, 1, 1,
+         0, 1, 0, 0, 1,
+         0, 1, 1, 0, 0}
+    };
+
+    int num_frames = 22; // Número total de frames na animação
+
+    for (int frame = 0; frame < num_frames; frame++) {
+        // Exibe o frame atual
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            if (e_frames[frame][i] == 1) {
+                uint32_t color = rgb_color(0, 0, 255); // Cor azul para a letra
+                pio_sm_put_blocking(pio, sm, color);
+            } else {
+                uint32_t color = rgb_color(0, 0, 0);   // Cor preta (apagado)
+                pio_sm_put_blocking(pio, sm, color);
+            }
+        }
+        if(frame < 13 || frame > 18){ // Delay entre os frames, dependendo do frame
+            sleep_ms(200);
+        }else{
+            sleep_ms(500);
+        }
+    }
+}
+
+
 // uma cobrinha correndo em volta de um led no centro
 void animacao_9(PIO pio,uint sm){
     double frame[][NUM_PIXELS] = {
@@ -543,6 +696,7 @@ void animacao_9(PIO pio,uint sm){
     desligar_leds(pio, sm);
 }
 
+
 // Função principal
 int main() {
     stdio_init_all();
@@ -576,9 +730,16 @@ int main() {
         case '4':
             animacao_timer(pio, sm); // Simboliza um timer de 1 a 9
             break;
+
+        case '5':
+            animacao_e(pio, sm); // Letra 'e' da embarcatech aparece
+            break;
+
+
         case '9':
             animacao_9(pio, sm);
             break;
+
         case '0':
             animacao_0(pio, sm); // rosto feliz piscando
             break;
