@@ -503,6 +503,7 @@ void animacao_timer(PIO pio, uint sm){
 
 }
 
+
 void animacao_e(PIO pio, uint sm){
         // Frames da cobra atravessando a matriz
     double e_frames[21][25] = {
@@ -655,6 +656,47 @@ void animacao_e(PIO pio, uint sm){
 }
 
 
+// uma cobrinha correndo em volta de um led no centro
+void animacao_9(PIO pio,uint sm){
+    double frame[][NUM_PIXELS] = {
+        {1,1,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,1,1,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,1,1,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,0,1},
+        {0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1,1},
+        {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,1,1,1},
+        {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,1,1,1},
+        {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,0,0},
+        {0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,1,1,0,0,0},
+        {0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0},
+        {1,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0},
+        {1,1,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
+        {1,1,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0}
+    };
+    int num_frames = 16;
+    int k = 0;
+    while (k < 7){
+        for (int j = 0; j < num_frames; j++) {
+            for (int i = 0; i < NUM_PIXELS; i++) {
+                if (frame[j][i]) {
+                    uint32_t color = rgb_color(0.2, 0, 0);
+                    pio_sm_put_blocking(pio, sm, color);
+                } else {
+                    uint32_t color = rgb_color(0, 0, 0);
+                    pio_sm_put_blocking(pio, sm, color);
+                }
+            }
+            sleep_ms(50);
+        }
+        k++;
+    }
+    desligar_leds(pio, sm);
+}
+
+
 // Função principal
 int main() {
     stdio_init_all();
@@ -688,8 +730,14 @@ int main() {
         case '4':
             animacao_timer(pio, sm); // Simboliza um timer de 1 a 9
             break;
+
         case '5':
             animacao_e(pio, sm); // Letra 'e' da embarcatech aparece
+            break;
+
+
+        case '9':
+            animacao_9(pio, sm);
             break;
 
         case '0':
