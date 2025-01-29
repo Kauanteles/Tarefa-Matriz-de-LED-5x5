@@ -53,9 +53,9 @@ Possuindo o teclado, conecte-o aos pinos de extensão da placa, de acordo com o 
 
 `4`: mostra a animação de um timer de 1 a 9 na matriz de LEDs;
 
-`5`:
+`5`:Letra 'e' da embarcatech aparece;
 
-`6`:
+`6`:Simboliza ondas crescentes;
 
 `9`: mostra a animação de uma cobra circulando a matriz LEDs, com um LED no meio;
 
